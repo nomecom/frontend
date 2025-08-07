@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../LoginSignup/LoginSignup.css';
 
 import user_icon from "../Assets/person.png";
@@ -6,6 +7,7 @@ import email_icon from "../Assets/email.png";
 import password_icon from "../Assets/password.png";
 
 function LoginSignup() {
+  const navigate = useNavigate();
   const [action, setAction] = useState("Sign Up");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -15,56 +17,55 @@ function LoginSignup() {
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
 
+  const getCurrentDomain = () => window.location.origin;
+
   const handleSubmit = async () => {
-  let url = "";
-  let options = {};
+    const domain = getCurrentDomain();
 
-  if (action === "Login") {
-    // Use query params for GET request
-    const query = new URLSearchParams({ email, password }).toString();
-    url = `https://nomapi.onrender.com/api/v1/user?${query}`;
+    let url = "";
+    let options = {};
 
-    options = {
-      method: "GET"
-    };
-  } else {
-    url = "https://nomapi.onrender.com/api/v1/user";
-    options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        password,
-        phone
-      })
-    };
-  }
-
-  try {
-    const response = await fetch(url, options);
-
-    const data = await response.json();
-    if (!response.ok) {
-      setMessage(data.detail || "Something went wrong.");
-      setIsError(true);
+    if (action === "Login") {
+      const query = new URLSearchParams({ email, password }).toString();
+      url = `https://nomapi.onrender.com/api/v1/user?${query}`;
+      options = { method: "GET" };
     } else {
-      if (action === "Sign Up") {
-        setMessage("Sign up successful. Please check your email to verify your account.");
-      } else {
-        setMessage("Login successful.");
-      }
-      setIsError(false);
+      url = "https://nomapi.onrender.com/api/v1/user";
+      options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          password,
+          phone,
+          domain
+        })
+      };
     }
-  } catch (err) {
-    setMessage("Network error. Please try again.");
-    setIsError(true);
-    console.error(err.message);
-  }
-};
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.detail || "Something went wrong.");
+        setIsError(true);
+      } else {
+        if (action === "Sign Up") {
+          setMessage("Sign up successful. Please check your email to verify your account.");
+        } else {
+          setMessage("Login successful.");
+        }
+        setIsError(false);
+      }
+    } catch (err) {
+      setMessage("Network error. Please try again.");
+      setIsError(true);
+    }
+  };
 
   return (
     <div className='container'>
@@ -136,7 +137,8 @@ function LoginSignup() {
 
       {action === "Login" && (
         <div className="forgot-password">
-          Forgot Password? <span>Click here</span>
+          Forgot Password?{" "}
+          <span onClick={() => navigate("/ForgotPassword")}>Click here</span>
         </div>
       )}
 

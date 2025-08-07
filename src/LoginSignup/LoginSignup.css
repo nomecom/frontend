@@ -2,12 +2,15 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 5vh auto 0 auto; 
-    width: 600px;
+    justify-content: center;
+    align-items: center;
+    margin: 5vh auto;
+    max-width: 600px;
     background: #fff;
     padding: 30px 20px;
     box-sizing: border-box;
     border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Header */
@@ -40,6 +43,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
 }
 
 .input {
@@ -106,6 +110,11 @@
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit:hover {
+    background: #3c009d;
 }
 
 .gray {
@@ -113,17 +122,19 @@
     color: #676767;
 }
 
+/* Toggle container for links */
 .toggle-container {
-  text-align: center;
-  margin-top: 10px;
+    text-align: center;
+    margin-top: 10px;
 }
 
 .toggle-link {
-  color: #007bff;
-  cursor: pointer;
-  text-decoration: underline;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
+/* Success & Error Messages */
 .success-found {
     margin-top: 10px;
     color: green;
@@ -139,7 +150,6 @@
     font-weight: bold;
     text-align: center;
 }
-
 
 /* Tablet */
 @media (max-width: 768px) {
