@@ -56,7 +56,7 @@ const Login = () => {
     setIsError(false);
 
     try {
-      const response = await fetch(`${BASE_URL}/signup`, {
+      const response = await fetch(`${BASE_URL}/signin`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

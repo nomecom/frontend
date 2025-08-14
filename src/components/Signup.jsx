@@ -112,6 +112,7 @@ const Signup = () => {
     }
 
     setIsLoading(true);
+    console.log(window.location.origin)
     const url = `${BASE_URL}/user`;
     const options = {
       method: "POST",
